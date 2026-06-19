@@ -1,0 +1,2 @@
+camunda-orchestration-sdk
+python-dotenv
