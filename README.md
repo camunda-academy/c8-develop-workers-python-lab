@@ -37,7 +37,7 @@ Then edit `.env` with your values:
 
 | Variable | Description |
 |---|---|
-| `CAMUNDA_REST_ADDRESS` | Your cluster's REST API address |
+| `CAMUNDA_REST_ADDRESS` | Your cluster's REST API address. This might be under ZEEBE_REST_ADDRESS in the exported credentials |
 | `CAMUNDA_AUTH_STRATEGY` | Set to `OAUTH` for SaaS, `NONE` for local Camunda 8 Run |
 | `CAMUNDA_CLIENT_ID` | OAuth client ID from your Camunda cluster |
 | `CAMUNDA_CLIENT_SECRET` | OAuth client secret from your Camunda cluster |
@@ -51,6 +51,7 @@ Then edit `.env` with your values:
 ```bash
 python main.py
 ```
+(make sure you have deployed order.bpmn from the resources directory to your cluster beforehand)
 
 You should see:
 
@@ -71,8 +72,8 @@ services/
   tracking_order_service.py      # Business logic for order tracking
 utilities/
   fake_randomizer.py             # Helper utilities
-Resources/
-  Bpmn/
+resources/
+  bpmn/
     order.bpmn                   # BPMN process definition
 ```
 
