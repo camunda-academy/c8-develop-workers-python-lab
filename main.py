@@ -43,8 +43,12 @@ async def _main() -> None:
         await start_process_instances(client, NUM_INSTANCES, PROCESS_ID)
 
         client.create_job_worker(
-            WorkerConfig(job_type="trackOrderStatus", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
-            track_order_status,
+            WorkerConfig(
+                            job_type="trackOrderStatus",
+                            job_timeout_milliseconds=WORKER_TIMEOUT_MS,
+                            fetch_variables=["orderId"],
+                        ),
+            track_order_status, 
         )
         client.create_job_worker(
             WorkerConfig(job_type="processPayment", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
