@@ -1,4 +1,7 @@
 from camunda_orchestration_sdk import ConnectedJobContext
+from pydantic import BaseModel
+import asyncio
+import random
 
 from services.tracking_order_service import (
     execute_payment_transaction,
@@ -15,7 +18,7 @@ async def track_order_status(job: ConnectedJobContext) -> None:
 
 async def process_payment(job: ConnectedJobContext) -> None:
     print(f"Handling job: {job.job_key} Processing payment")
-    await execute_payment_transaction(job)
+    payment_confirmation = await execute_payment_transaction(job)
     print(f"Handling job: {job.job_key} Payment processed successfully")
 
 
