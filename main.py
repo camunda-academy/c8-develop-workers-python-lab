@@ -46,14 +46,6 @@ async def _main() -> None:
             WorkerConfig(job_type="trackCourierStatus", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
             track_courier_status,
         )
-        client.create_job_worker(
-            WorkerConfig(job_type="collectDeposit", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
-            collect_deposit,
-        )
-        client.create_job_worker(
-            WorkerConfig(job_type="prepareKit", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
-            prepare_kit,
-        )
 
         print("Workers started. Press Ctrl+C to exit.")
         await client.run_workers()
