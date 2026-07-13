@@ -8,12 +8,12 @@ from dotenv import load_dotenv
 from camunda_orchestration_sdk import CamundaAsyncClient, WorkerConfig
 from camunda_orchestration_sdk.errors import ForbiddenError, UnauthorizedError
 
-from handlers.order_handlers import pack_items, process_payment, track_order_status
+from handlers.fulfillment_handlers import prepare_kit, collect_deposit, track_courier_status
 from services.process_starter import start_process_instances
 
 load_dotenv()
 
-PROCESS_ID = "orderProcess"
+PROCESS_ID = "fulfillmentProcess"
 NUM_INSTANCES = 1
 WORKER_TIMEOUT_MS = 30_000
 
@@ -43,16 +43,16 @@ async def _main() -> None:
         await start_process_instances(client, NUM_INSTANCES, PROCESS_ID)
 
         client.create_job_worker(
-            WorkerConfig(job_type="trackOrderStatus", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
-            track_order_status,
+            WorkerConfig(job_type="trackCourierStatus", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
+            track_courier_status,
         )
         client.create_job_worker(
-            WorkerConfig(job_type="processPayment", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
-            process_payment,
+            WorkerConfig(job_type="collectDeposit", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
+            collect_deposit,
         )
         client.create_job_worker(
-            WorkerConfig(job_type="packItems", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
-            pack_items,
+            WorkerConfig(job_type="prepareKit", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
+            prepare_kit,
         )
 
         print("Workers started. Press Ctrl+C to exit.")

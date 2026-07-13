@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0f7eexm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.0-rc.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0" camunda:diagramRelationId="5d07dbba-63c2-4d3a-8d4f-e543e0e2af0f">
-  <bpmn:process id="orderProcess" name="Order process" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" name="Process started">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0f7eexm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.48.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0" camunda:diagramRelationId="5d07dbba-63c2-4d3a-8d4f-e543e0e2af0f">
+  <bpmn:process id="fulfillmentProcess" name="Fulfillment process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Fulfillment requested">
       <bpmn:outgoing>Flow_0tcju3e</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:endEvent id="Event_1oxyiwj" name="Process ended">
+    <bpmn:endEvent id="Event_1oxyiwj" name="Fulfillment completed">
       <bpmn:incoming>Flow_0nm5mc3</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0tcju3e" sourceRef="StartEvent_1" targetRef="Activity_1rncuec" />
-    <bpmn:serviceTask id="Activity_1rncuec" name="Track order">
+    <bpmn:serviceTask id="Activity_1rncuec" name="Track courier">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="trackOrderStatus" />
+        <zeebe:taskDefinition type="trackCourierStatus" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0tcju3e</bpmn:incoming>
       <bpmn:outgoing>Flow_08piqli</bpmn:outgoing>
@@ -23,16 +23,16 @@
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="Flow_0pogh1a" sourceRef="Gateway_1hku9x8" targetRef="Activity_1lh1rr9" />
     <bpmn:sequenceFlow id="Flow_0k51uw2" sourceRef="Gateway_1hku9x8" targetRef="Activity_0luysxt" />
-    <bpmn:serviceTask id="Activity_1lh1rr9" name="Pack items">
+    <bpmn:serviceTask id="Activity_1lh1rr9" name="Prepare kit">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="packItems" />
+        <zeebe:taskDefinition type="prepareKit" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0pogh1a</bpmn:incoming>
       <bpmn:outgoing>Flow_0u2wjgl</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_0luysxt" name="Process payment">
+    <bpmn:serviceTask id="Activity_0luysxt" name="Deposit amount">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="processPayment" />
+        <zeebe:taskDefinition type="collectDeposit" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0k51uw2</bpmn:incoming>
       <bpmn:outgoing>Flow_17ek9vt</bpmn:outgoing>
@@ -47,17 +47,17 @@
     <bpmn:sequenceFlow id="Flow_17ek9vt" sourceRef="Activity_0luysxt" targetRef="Gateway_0kulc1t" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="orderProcess">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="fulfillmentProcess">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="152" y="199" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="132" y="242" width="77" height="14" />
+          <dc:Bounds x="130" y="242" width="80" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1oxyiwj_di" bpmnElement="Event_1oxyiwj">
         <dc:Bounds x="802" y="199" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="783" y="242" width="74" height="14" />
+          <dc:Bounds x="780" y="242" width="80" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_032p0ct_di" bpmnElement="Activity_1rncuec">

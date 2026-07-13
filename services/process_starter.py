@@ -13,7 +13,7 @@ async def start_process_instances(
 
     for _ in range(num_instances):
         fake_request = get_random()
-        print(f"Generating Order({fake_request['orderId']})")
+        print(f"Generating Order({fake_request['requestId']})")
 
         result = await client.create_process_instance(
             data=ProcessCreationById(
