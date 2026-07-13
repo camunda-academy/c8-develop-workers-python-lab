@@ -43,8 +43,28 @@ async def _main() -> None:
         await start_process_instances(client, NUM_INSTANCES, PROCESS_ID)
 
         client.create_job_worker(
-            WorkerConfig(job_type="trackCourierStatus", job_timeout_milliseconds=WORKER_TIMEOUT_MS),
+            WorkerConfig(
+                job_type="trackCourierStatus", 
+                job_timeout_milliseconds=WORKER_TIMEOUT_MS,
+                fetch_variables=["requestId"],
+            ),
             track_courier_status,
+        )
+        client.create_job_worker(
+            WorkerConfig(
+                job_type="collectDeposit",
+                job_timeout_milliseconds=WORKER_TIMEOUT_MS,
+                fetch_variables=["requestId", "price"],
+            ),
+            collect_deposit,
+        )
+        client.create_job_worker(
+            WorkerConfig(
+                job_type="prepareKit",
+                job_timeout_milliseconds=WORKER_TIMEOUT_MS,
+                fetch_variables=["requestId"],
+                ),
+            prepare_kit,
         )
 
         print("Workers started. Press Ctrl+C to exit.")
