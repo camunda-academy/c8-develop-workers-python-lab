@@ -14,5 +14,6 @@ async def validate_and_prepare_shipment(job: ConnectedJobContext) -> bool:
     return True
 
 
-async def process_deposit(job: ConnectedJobContext) -> str:
-    return str(int(time.time() * 1000))
+async def process_deposit(job: ConnectedJobContext, amount: float) -> str:
+    if bool(amount):
+        return str(int(time.time() * 1000))
