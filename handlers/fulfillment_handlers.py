@@ -1,7 +1,5 @@
 from camunda_orchestration_sdk import ConnectedJobContext
 from pydantic import BaseModel
-import asyncio
-import random
 
 from services.fulfillment_service import (
     process_deposit,
@@ -17,12 +15,20 @@ async def track_courier_status(job: ConnectedJobContext) -> None:
 
 
 async def collect_deposit(job: ConnectedJobContext) -> None:
+    variables = job.variables.to_dict()
+
     job.log.info(f"Handling job: {job.job_key} Collecting deposit")
-    await process_deposit(job)
+    payment_confirmation = await process_deposit(job)
     job.log.info(f"Handling job: {job.job_key} Deposit collected successfully")
+    variables["paymentConfirmation"] = payment_confirmation
+    return variables
 
 
 async def prepare_kit(job: ConnectedJobContext) -> None:
+    variables = job.variables.to_dict()
+
     job.log.info(f"Handling job: {job.job_key} Preparing kit")
-    await validate_and_prepare_shipment(job)
+    kit_ready = await validate_and_prepare_shipment(job)
     job.log.info(f"Handling job: {job.job_key} Kit prepared successfully")
+    variables["kitReady"] = kit_ready
+    return variables
