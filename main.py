@@ -14,7 +14,7 @@ from services.process_starter import start_process_instances
 load_dotenv()
 
 PROCESS_ID = "fulfillmentProcess"
-NUM_INSTANCES = 1
+NUM_INSTANCES = 0
 WORKER_TIMEOUT_MS = 30_000
 
 
