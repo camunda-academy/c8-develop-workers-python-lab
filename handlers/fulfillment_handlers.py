@@ -18,7 +18,7 @@ async def collect_deposit(job: ConnectedJobContext) -> None:
     variables = job.variables.to_dict()
 
     job.log.info(f"Handling job: {job.job_key} Collecting deposit")
-    payment_confirmation = await process_deposit(job)
+    payment_confirmation = await process_deposit(job, variables.price)
     job.log.info(f"Handling job: {job.job_key} Deposit collected successfully")
     variables["paymentConfirmation"] = payment_confirmation
     return variables
