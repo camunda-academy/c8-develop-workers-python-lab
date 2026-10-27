@@ -51,7 +51,8 @@ Then edit `.env` with your values:
 ```bash
 python main.py
 ```
-(make sure you have deployed order.bpmn from the resources directory to your cluster beforehand)
+
+Before running the application, deploy `resources/bpmn/fulfillment.bpmn` to your Camunda 8.10 cluster. Its process ID is `fulfillmentProcess`.
 
 You should see:
 
@@ -66,15 +67,15 @@ Press **Ctrl+C** to stop the workers.
 ```
 main.py                          # Entry point — sets up workers and starts the client
 handlers/
-  order_handlers.py              # Job handler implementations
+  fulfillment_handlers.py        # Job handler implementations
 services/
   process_starter.py             # Starts process instances
-  tracking_order_service.py      # Business logic for order tracking
+  fulfillment_service.py         # Fulfillment business logic
 utilities/
   fake_randomizer.py             # Helper utilities
 resources/
   bpmn/
-    order.bpmn                   # BPMN process definition
+    fulfillment.bpmn             # BPMN process definition
 ```
 
 ## Troubleshooting
